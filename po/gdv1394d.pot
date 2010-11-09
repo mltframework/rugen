@@ -1,0 +1,202 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-04-12 16:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/interface.c:89
+msgid "Rugen"
+msgstr ""
+
+#: src/interface.c:112
+msgid "_File"
+msgstr ""
+
+#: src/interface.c:119
+msgid "_Connect"
+msgstr ""
+
+#: src/interface.c:123
+msgid "_Disconnect"
+msgstr ""
+
+#: src/interface.c:132
+msgid "_Quit"
+msgstr ""
+
+#: src/interface.c:146
+msgid "Connect to a server"
+msgstr ""
+
+#: src/interface.c:156
+msgid "Disconnect from server"
+msgstr ""
+
+#: src/interface.c:172
+msgid "Exit"
+msgstr ""
+
+#: src/interface.c:452
+msgid "Connection"
+msgstr ""
+
+#: src/interface.c:461
+msgid "Server "
+msgstr ""
+
+#: src/interface.c:469
+msgid "Port"
+msgstr ""
+
+#: src/interface.c:482
+msgid "localhost"
+msgstr ""
+
+#: src/interface.c:512
+msgid "Connect"
+msgstr ""
+
+#: src/interface.c:535
+msgid "Cancel"
+msgstr ""
+
+#: src/interface.c:550
+msgid "5250"
+msgstr ""
+
+#: src/interface.c:621
+msgid "page_status"
+msgstr ""
+
+#: src/interface.c:636
+msgid "00"
+msgstr ""
+
+#: src/interface.c:643
+msgid "01"
+msgstr ""
+
+#: src/interface.c:650
+msgid "02"
+msgstr ""
+
+#: src/interface.c:657
+msgid "03"
+msgstr ""
+
+#: src/interface.c:664
+msgid "04"
+msgstr ""
+
+#: src/interface.c:671
+msgid "05"
+msgstr ""
+
+#: src/interface.c:678
+msgid "06"
+msgstr ""
+
+#: src/interface.c:685
+msgid "07"
+msgstr ""
+
+#: src/interface.c:692
+msgid "08"
+msgstr ""
+
+#: src/interface.c:699
+msgid "09"
+msgstr ""
+
+#: src/interface.c:706
+msgid "10"
+msgstr ""
+
+#: src/interface.c:713
+msgid "11"
+msgstr ""
+
+#: src/interface.c:720
+msgid "13"
+msgstr ""
+
+#: src/interface.c:727
+msgid "14"
+msgstr ""
+
+#: src/interface.c:734
+msgid "15"
+msgstr ""
+
+#: src/interface.c:741 src/interface.c:748 src/interface.c:755
+#: src/interface.c:762 src/interface.c:769 src/interface.c:776
+#: src/interface.c:783 src/interface.c:790 src/interface.c:797
+#: src/interface.c:804 src/interface.c:811 src/interface.c:818
+#: src/interface.c:832 src/interface.c:839 src/interface.c:846
+#: src/interface.c:853
+msgid "<disconnected>"
+msgstr ""
+
+#: src/interface.c:825
+msgid "12"
+msgstr ""
+
+#: src/interface.c:950
+msgid "page_clips"
+msgstr ""
+
+#: src/interface.c:960
+msgid "Disconnected"
+msgstr ""
+
+#: src/interface.c:972
+msgid "Play"
+msgstr ""
+
+#: src/interface.c:976
+msgid "Load"
+msgstr ""
+
+#: src/interface.c:980
+msgid "Queue"
+msgstr ""
+
+#: src/interface.c:984
+msgid "Insert"
+msgstr ""
+
+#: src/interface.c:1057 src/interface.c:1158
+msgid " "
+msgstr ""
+
+#: src/interface.c:1236
+msgid "page_shell"
+msgstr ""
+
+#: src/interface.c:1246
+msgid "Command "
+msgstr ""
+
+#: src/interface.c:1273
+msgid "_OK"
+msgstr ""
+
+#: src/interface.c:1296
+msgid "Clear"
+msgstr ""
+
+#: src/support.c:90 src/support.c:114
+#, c-format
+msgid "Couldn't find pixmap file: %s"
+msgstr ""
