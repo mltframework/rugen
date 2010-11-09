@@ -1,6 +1,7 @@
 /*
  * page.h -- Page handling
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +34,7 @@ struct page_t
 	void ( *on_connect )( page );
 	void ( *on_disconnect )( page );
 	void ( *on_unit_change )( page, int );
-	void ( *show_status )( page, valerie_status );
+	void ( *show_status )( page, mvcp_status );
 	void ( *close )( page );
 };
 
@@ -43,7 +44,7 @@ extern void page_get_toolbar_info( page, GtkIconSize, GtkWidget **, char ** );
 extern void page_on_connect( page );
 extern void page_on_disconnect( page );
 extern void page_on_unit_change( page, int );
-extern void page_show_status( page, valerie_status );
+extern void page_show_status( page, mvcp_status );
 extern void page_close( page );
 
 /* page factories */

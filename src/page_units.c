@@ -1,6 +1,7 @@
 /*
  * page_units.c -- Units Page Handling
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +29,6 @@
 #include "interface.h"
 #include "support.h"
 #include "dv1394app.h"
-#include "util.h"
 #include "page.h"
 
 static void this_on_connect( page this )

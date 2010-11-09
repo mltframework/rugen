@@ -1,6 +1,7 @@
 /*
  * page_command.c -- Command Page Handling
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +29,6 @@
 #include "interface.h"
 #include "support.h"
 #include "dv1394app.h"
-#include "util.h"
 #include "page.h"
 
 typedef struct page_command_t
@@ -55,7 +55,7 @@ static gboolean on_command_pressed( GtkWidget *button, gpointer user_data )
 	if ( dv1394app_get_parser( this->app ) != NULL )
 	{
 		int index = 0;
-		valerie_response response = NULL;
+		mvcp_response response = NULL;
 		GtkTextIter iter;
 
 		widget = lookup_widget( this_page_get_widget( this ), "entry_command" );
@@ -72,14 +72,14 @@ static gboolean on_command_pressed( GtkWidget *button, gpointer user_data )
 		gtk_text_buffer_insert_at_cursor( buffer, "> ", -1 );
 		gtk_text_buffer_insert_at_cursor( buffer, command, -1 );
 		gtk_text_buffer_insert_at_cursor( buffer, "\n", -1 );
-		valerie_execute( dv1394app_get_command( this->app ), 1024, "%s", command );
-	    response = valerie_get_last_response( dv1394app_get_command( this->app ) );
-	    for ( index = 0; index < valerie_response_count( response ); index ++ )
+		mvcp_execute( dv1394app_get_command( this->app ), 1024, "%s", command );
+	    response = mvcp_get_last_response( dv1394app_get_command( this->app ) );
+	    for ( index = 0; index < mvcp_response_count( response ); index ++ )
 		{
-			if ( index != valerie_response_count( response ) - 1 || 
-				 strcmp( valerie_response_get_line( response, index ), "" ) )
+			if ( index != mvcp_response_count( response ) - 1 || 
+				 strcmp( mvcp_response_get_line( response, index ), "" ) )
 			{
-				gtk_text_buffer_insert_at_cursor( buffer, valerie_response_get_line( response, index ), -1 );
+				gtk_text_buffer_insert_at_cursor( buffer, mvcp_response_get_line( response, index ), -1 );
 				gtk_text_buffer_insert_at_cursor( buffer, "\n", -1 );
 			}
 		}
@@ -91,7 +91,7 @@ static gboolean on_command_pressed( GtkWidget *button, gpointer user_data )
 	}
 	else
 	{
-		beep( );
+//		beep( );
 	}
 
 	return FALSE;

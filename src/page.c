@@ -1,6 +1,7 @@
 /*
  * page.c -- Page handling
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +69,7 @@ void page_on_unit_change( page this, int unit )
 /** Called to propogate status information to any page that's interested.
 */
 
-void page_show_status( page this, valerie_status status )
+void page_show_status( page this, mvcp_status status )
 {
 	if ( this->show_status )
 		this->show_status( this, status );

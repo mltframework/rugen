@@ -1,6 +1,7 @@
 /*
  * main.c -- GTK+ 2 dv1394d client demo
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,10 +50,10 @@ int main( int argc, char *argv[] )
 
 	// Linux hack to determine path of the executable
 	readlink( "/proc/self/exe", path, 512 );
-	if ( strstr( path, "/bin/fireswamp" ) )
+	if ( strstr( path, "/bin/rugen" ) )
 	{
-		( *strstr( path, "/bin/fireswamp" ) ) = '\0';
-		strcat( path, "/share/fireswamp/pixmaps" );
+		( *strstr( path, "/bin/rugen" ) ) = '\0';
+		strcat( path, "/share/rugen/pixmaps" );
   		add_pixmap_directory( path );
 	}
 	else

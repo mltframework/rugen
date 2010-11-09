@@ -1,6 +1,7 @@
 /*
  * page_status.c -- Status Page Handling
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +30,6 @@
 #include "interface.h"
 #include "support.h"
 #include "dv1394app.h"
-#include "util.h"
 #include "page.h"
 
 typedef struct 
@@ -37,7 +37,7 @@ typedef struct
 	struct page_t parent;
 	dv1394app app;
 	GtkWidget *widget;
-	valerie status;
+	mvcp status;
 	int terminated;
 	pthread_t status_thread;
 	guint context;
@@ -51,7 +51,7 @@ static GtkWidget *this_page_get_widget( page );
 /** Show the status associated to a unit.
 */
 
-static int show_status( page_status this, valerie_status status )
+static int show_status( page_status this, mvcp_status status )
 {
 	GtkWidget *widget = this_page_get_widget( ( page )this );
 	char temp[ 1024 ] = "";
@@ -118,20 +118,20 @@ static void show_units( page_status this, gboolean active )
 	char temp[ 1024 ] = "";
 	char button_name[ 256 ];
 	
-	valerie_units units = NULL;
-	valerie_unit_entry_t unit;
+	mvcp_units units = NULL;
+	mvcp_unit_entry_t unit;
 	int unit_count = 0;
 	
-	valerie_nodes nodes = NULL;
-	valerie_node_entry_t node;
+	mvcp_nodes nodes = NULL;
+	mvcp_node_entry_t node;
 	int node_count = 0;
 
 	if ( active )
 	{
-		units = valerie_units_init( this->status );
-		unit_count = valerie_units_count( units );
-		nodes = valerie_nodes_init( this->status );
-		node_count = valerie_nodes_count( nodes );
+		units = mvcp_units_init( this->status );
+		unit_count = mvcp_units_count( units );
+		nodes = mvcp_nodes_init( this->status );
+		node_count = mvcp_nodes_count( nodes );
 		this->count = unit_count;
 	}
 	
@@ -141,11 +141,11 @@ static void show_units( page_status this, gboolean active )
 	{
 		if ( index < unit_count )
 		{
-			valerie_units_get( units, index, &unit );
+			mvcp_units_get( units, index, &unit );
 			
 			for ( index2 = 0; index2 < node_count; index2 ++ )
 			{
-				valerie_nodes_get( nodes, index2, &node );
+				mvcp_nodes_get( nodes, index2, &node );
 				if ( !strcmp( node.guid, unit.guid ) )
 					break;
 			}
@@ -176,8 +176,8 @@ static void show_units( page_status this, gboolean active )
 	gdk_flush();
 	gdk_threads_leave();			
 
-	valerie_notifier notifier = valerie_get_notifier( this->status );
-	valerie_status_t status;
+	mvcp_notifier notifier = mvcp_get_notifier( this->status );
+	mvcp_status_t status;
 
 	for ( index = 0; index < MAX_UNITS; index ++ )
 	{
@@ -185,14 +185,14 @@ static void show_units( page_status this, gboolean active )
 		if ( !active )
 			status.status = unit_disconnected;
 		else
-			valerie_notifier_get( notifier, &status, index );
+			mvcp_notifier_get( notifier, &status, index );
 		show_status( this, &status );		
 	}
 		
 	if ( active )
 	{
-		valerie_nodes_close( nodes );
-		valerie_units_close( units );
+		mvcp_nodes_close( nodes );
+		mvcp_units_close( units );
 	}
 }
 
@@ -202,14 +202,14 @@ static void show_units( page_status this, gboolean active )
 static void *status_thread( void *arg )
 {
 	page_status this = arg;
-	valerie_notifier notifier = valerie_get_notifier( this->status );
-	valerie_status_t status;
+	mvcp_notifier notifier = mvcp_get_notifier( this->status );
+	mvcp_status_t status;
 
 	show_units( this, TRUE );
 	
 	while ( !this->terminated )
 	{
-		if ( valerie_notifier_wait( notifier, &status ) != -1 )
+		if ( mvcp_notifier_wait( notifier, &status ) != -1 )
 		{
 			if ( status.status == unit_disconnected )
 				break;
@@ -246,10 +246,10 @@ void on_radiobutton_toggled( GtkToggleButton *togglebutton, gpointer user_data )
 	}
 	if ( index < MAX_UNITS )
 	{
-		valerie_status_t status;
-		valerie_notifier notifier = valerie_get_notifier( this->status );
+		mvcp_status_t status;
+		mvcp_notifier notifier = mvcp_get_notifier( this->status );
 		dv1394app_on_unit_change( app, index );
-		valerie_notifier_get( notifier, &status, index );
+		mvcp_notifier_get( notifier, &status, index );
 		gdk_threads_leave( );
 		show_status( this, &status );
 		gdk_threads_enter( );
@@ -276,7 +276,7 @@ static void this_page_on_connect( page super )
 	if ( this->terminated )
 	{
 		this->terminated = 0;
-		this->status = valerie_init( dv1394app_get_parser( this->app ) );
+		this->status = mvcp_init( dv1394app_get_parser( this->app ) );
 		pthread_create( &this->status_thread, NULL, status_thread, this );
 	}
 }
@@ -291,7 +291,7 @@ static void this_page_on_disconnect( page super )
 		gdk_threads_leave();
 		pthread_join( this->status_thread, NULL );
 		gdk_threads_enter();
-		valerie_close( this->status );
+		mvcp_close( this->status );
 		widget = lookup_widget( dv1394app_get_widget( this->app ), "statusbar" );
 		gtk_statusbar_push( GTK_STATUSBAR( widget ), this->context, "Disconnected." );
 	}

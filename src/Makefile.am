@@ -13,7 +13,6 @@ rugen_SOURCES = \
 	interface.c interface.h \
 	callbacks.c callbacks.h \
 	dv1394app.c dv1394app.h \
-	util.c util.h \
 	page.c page.h \
 	page_clips.c \
 	page_command.c \
@@ -21,7 +20,6 @@ rugen_SOURCES = \
 	page_units.c \
 	gtkenhancedscale.c gtkenhancedscale.h
 
-rugen_CFLAGS = `pkg-config --cflags gthread-2.0` `mlt-config miracle --cflags`
+rugen_CFLAGS = `pkg-config --cflags gthread-2.0 mlt-melted mlt-mvcp`
 rugen_LDADD = @PACKAGE_LIBS@
-rugen_LDFLAGS = `pkg-config --libs gthread-2.0` `mlt-config miracle --libs`
-
+rugen_LDFLAGS = `pkg-config --libs gthread-2.0 mlt-melted mlt-mvcp`

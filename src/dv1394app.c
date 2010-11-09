@@ -1,6 +1,7 @@
 /*
  * dv1394app.c -- GTK+ 2 dv1394d client demo
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,11 +31,10 @@
 #include "interface.h"
 #include "support.h"
 #include "dv1394app.h"
-#include "util.h"
 #include "page.h"
 #include "gtkenhancedscale.h"
-#include <valerie/valerie_remote.h>
-#include <miracle/miracle_local.h>
+#include <mvcp/mvcp_remote.h>
+#include <melted/melted_local.h>
 
 
 /** Window close event.
@@ -51,16 +51,16 @@ static gboolean instance_connect( dv1394app this, char *server, char *port )
 	if ( this->parser == NULL )
 	{
 		if ( strstr( server, ".conf" ) == NULL )
-			this->parser = valerie_parser_init_remote( server, atoi( port ) );
+			this->parser = mvcp_parser_init_remote( server, atoi( port ) );
 		else
-			this->parser = miracle_parser_init_local( );
+			this->parser = melted_parser_init_local( );
 
-		this->command = valerie_init( this->parser );
+		this->command = mvcp_init( this->parser );
 
 		if ( strstr( server, ".conf" ) != NULL )
-			valerie_run( this->command, server );
+			mvcp_run( this->command, server );
 
-		if ( valerie_connect( this->command ) == valerie_ok )
+		if ( mvcp_connect( this->command ) == mvcp_ok )
 		{
 			struct timespec t = { 1, 0 };
 			nanosleep( &t, NULL );
@@ -70,10 +70,10 @@ static gboolean instance_connect( dv1394app this, char *server, char *port )
 		}
 		else
 		{
-			valerie_close( this->command );
-			valerie_parser_close( this->parser );
+			mvcp_close( this->command );
+			mvcp_parser_close( this->parser );
 			this->parser = NULL;
-			beep( );
+//			beep( );
 		}
 	}
 
@@ -170,7 +170,7 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 {
 	int index = 0;
 	dv1394app this = ( dv1394app )data;
-	valerie dv = dv1394app_get_command( this );
+	mvcp dv = dv1394app_get_command( this );
 	int unit = dv1394app_get_selected_unit( this );
 	
 	for ( index = 0; index < 11; index ++ )
@@ -180,47 +180,47 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 	switch( index )
 	{
 		case 0:
-			valerie_unit_clip_goto( dv, unit, valerie_absolute, 0, 0 );
+			mvcp_unit_clip_goto( dv, unit, mvcp_absolute, 0, 0 );
 			break;
 		
 		case 1:
-			valerie_unit_goto( dv, unit, 0 );
+			mvcp_unit_goto( dv, unit, 0 );
 			break;
 		
 		case 2:
-			valerie_unit_rewind( dv, unit );
+			mvcp_unit_rewind( dv, unit );
 			break;
 		
 		case 3:
-			valerie_unit_step( dv, unit, -1 );
+			mvcp_unit_step( dv, unit, -1 );
 			break;
 		
 		case 4:
-			valerie_unit_pause( dv, unit );
+			mvcp_unit_pause( dv, unit );
 			break;
 		
 		case 5:
-			valerie_unit_play( dv, unit );
+			mvcp_unit_play( dv, unit );
 			break;
 		
 		case 6:
-			valerie_unit_stop( dv, unit );
+			mvcp_unit_stop( dv, unit );
 			break;
 		
 		case 7:
-			valerie_unit_step( dv, unit, 1 );
+			mvcp_unit_step( dv, unit, 1 );
 			break;
 		
 		case 8:
-			valerie_unit_fast_forward( dv, unit );
+			mvcp_unit_fast_forward( dv, unit );
 			break;
 		
 		case 9:
-			valerie_unit_clip_goto( dv, unit, valerie_relative, 1, 0 );
+			mvcp_unit_clip_goto( dv, unit, mvcp_relative, 1, 0 );
 			break;
 		
 		case 10:
-			valerie_unit_clip_goto( dv, unit, valerie_absolute, 9999, -1 );
+			mvcp_unit_clip_goto( dv, unit, mvcp_absolute, 9999, -1 );
 			break;
 		
 		default:
@@ -260,7 +260,7 @@ static GtkAdjustment *trim_adj[3];
 #define TRIM_ADJ_IN 1
 #define TRIM_ADJ_OUT 2
 
-void dv1394app_show_status( dv1394app this, valerie_status status )
+void dv1394app_show_status( dv1394app this, mvcp_status status )
 {
 	int index = 0;
 	for ( index = 0; index < this->page_count; index ++ )
@@ -291,7 +291,7 @@ void dv1394app_show_status( dv1394app this, valerie_status status )
 static gboolean trim_pressed( GtkWidget *button, GdkEventButton *event, gpointer user_data )
 {
 	dv1394app this = (dv1394app)user_data;
-	valerie_unit_pause( dv1394app_get_command( this ), this->selected_unit );
+	mvcp_unit_pause( dv1394app_get_command( this ), this->selected_unit );
 	this->trim_in = -1;
 	this->trim_out = -1;
 	this->trim_in_use = 1;
@@ -303,9 +303,9 @@ static gboolean trim_released( GtkWidget *button, GdkEventButton *event, gpointe
 	dv1394app this = (dv1394app)user_data;
 	this->trim_in_use = 0;
 	if ( this->trim_in != -1 )
-		valerie_unit_set_in( dv1394app_get_command( this ), this->selected_unit, this->trim_in );
+		mvcp_unit_set_in( dv1394app_get_command( this ), this->selected_unit, this->trim_in );
 	if ( this->trim_out != -1 )
-		valerie_unit_set_out( dv1394app_get_command( this ), this->selected_unit, this->trim_out );
+		mvcp_unit_set_out( dv1394app_get_command( this ), this->selected_unit, this->trim_out );
 	return TRUE;
 }
 
@@ -319,17 +319,17 @@ static gboolean on_trim_value_changed_event( GtkWidget *button, gpointer user_da
 		
 		if ( !strcmp( value, "position" ) )
 		{
-			valerie_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_POS]->value );
+			mvcp_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_POS]->value );
 		}
 		else if ( !strcmp( value, "in" ) )
 		{
 			this->trim_in = trim_adj[TRIM_ADJ_IN]->value;
-			valerie_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_IN]->value );
+			mvcp_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_IN]->value );
 		}
 		else if ( !strcmp( value, "out" ) )
 		{
 			this->trim_out = trim_adj[TRIM_ADJ_OUT]->value;
-			valerie_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_OUT]->value );
+			mvcp_unit_goto( dv1394app_get_command( this ), this->selected_unit, trim_adj[TRIM_ADJ_OUT]->value );
 		}
 		
 		gtk_widget_queue_draw (lookup_widget(this->window, "vbox_trim") );
@@ -446,7 +446,7 @@ GtkWidget *dv1394app_get_widget( dv1394app this )
 /** Get the applications parser.
 */
 
-valerie_parser dv1394app_get_parser( dv1394app this )
+mvcp_parser dv1394app_get_parser( dv1394app this )
 {
 	return this->parser;
 }
@@ -454,7 +454,7 @@ valerie_parser dv1394app_get_parser( dv1394app this )
 /** Return the command parser.
 */
 
-valerie dv1394app_get_command( dv1394app this )
+mvcp dv1394app_get_command( dv1394app this )
 {
 	return this->command;
 }
@@ -498,9 +498,9 @@ void dv1394app_disconnect( dv1394app this )
 	{
 		for ( index = 0; index < this->page_count; index ++ )
 			page_on_disconnect( this->pages[ index ] );
-		valerie_close( this->command );
+		mvcp_close( this->command );
 		this->command = NULL;
-		valerie_parser_close( this->parser );
+		mvcp_parser_close( this->parser );
 		this->parser = NULL;
 	}
 }

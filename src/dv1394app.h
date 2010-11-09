@@ -1,6 +1,7 @@
 /*
  * dv1394app.h -- GTK+ 2 dv1394d client demo
  * Copyright (C) 2002-2003 Charles Yates <charles.yates@pandora.be>
+ * Copyright (C) 2010 Dan Dennedy <dan@dennedy.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +22,7 @@
 #define _DV1394_APP_
 
 #include <gtk/gtk.h>
-#include <valerie/valerie.h>
+#include <mvcp/mvcp.h>
 
 typedef struct page_t *page;
 	
@@ -29,8 +30,8 @@ typedef struct
 {
 	GtkWidget *window;
 	GtkWidget *connect;
-	valerie_parser parser;
-	valerie command;
+	mvcp_parser parser;
+	mvcp command;
 	int page_count;
 	GtkWidget *page_buttons[ 10 ];
 	page pages[ 10 ];
@@ -49,12 +50,12 @@ typedef struct
 
 extern dv1394app dv1394app_init( GtkWidget *, char * );
 extern GtkWidget *dv1394app_get_widget( dv1394app );
-extern valerie_parser dv1394app_get_parser( dv1394app );
-extern valerie dv1394app_get_command( dv1394app );
+extern mvcp_parser dv1394app_get_parser( dv1394app );
+extern mvcp dv1394app_get_command( dv1394app );
 extern void dv1394app_connect( dv1394app );
 extern void dv1394app_on_unit_change( dv1394app, int );
 extern int dv1394app_get_selected_unit( dv1394app );
-extern void dv1394app_show_status( dv1394app, valerie_status );
+extern void dv1394app_show_status( dv1394app, mvcp_status );
 extern void dv1394app_disconnect( dv1394app );
 extern void dv1394app_close( dv1394app );
 
