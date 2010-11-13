@@ -262,8 +262,20 @@ static gboolean on_ok( GtkWidget *dummy, gpointer data )
 					mvcp_unit_append( this->dv, dv1394app_get_selected_unit( this->app ), temp, -1, -1 );
 					break;
 				case 3:
-					mvcp_unit_clip_insert( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_relative, 1, temp, -1, -1 );
+				{
+					GtkWidget *widget = lookup_widget( this_page_get_widget( this ), "treeview1" );
+					GtkTreeSelection *select = gtk_tree_view_get_selection( GTK_TREE_VIEW( widget ) );
+					GtkTreeModel *model;
+					GtkTreeIter iter;
+					int clip;
+					
+					if ( gtk_tree_selection_get_selected( select, &model, &iter ) )
+					{
+						gtk_tree_model_get( model, &iter, 5, &clip,	-1 );
+						mvcp_unit_clip_insert( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_absolute, clip, temp, -1, -1 );
+					}
 					break;
+				}
 			}
 			
 			free( temp );
@@ -392,21 +404,51 @@ static gboolean on_refresh( GtkWidget *button, gpointer data )
 static gboolean on_up( GtkWidget *dummy, gpointer data )
 {
 	page_clips this = data;
-	mvcp_unit_clip_move( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_relative, 0, mvcp_relative, -1 );
+	GtkWidget *widget = lookup_widget( this_page_get_widget( this ), "treeview1" );
+	GtkTreeSelection *select = gtk_tree_view_get_selection( GTK_TREE_VIEW( widget ) );
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	int clip;
+
+	if ( gtk_tree_selection_get_selected( select, &model, &iter ) )
+	{
+		gtk_tree_model_get( model, &iter, 5, &clip,	-1 );
+		mvcp_unit_clip_move( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_absolute, clip, mvcp_absolute, clip - 1 < 0 ? 0 : clip - 1 );
+	}
 	return TRUE;
 }
 
 static gboolean on_down( GtkWidget *dummy, gpointer data )
 {
 	page_clips this = data;
-	mvcp_unit_clip_move( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_relative, 0, mvcp_relative, 1 );
+	GtkWidget *widget = lookup_widget( this_page_get_widget( this ), "treeview1" );
+	GtkTreeSelection *select = gtk_tree_view_get_selection( GTK_TREE_VIEW( widget ) );
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	int clip;
+
+	if ( gtk_tree_selection_get_selected( select, &model, &iter ) )
+	{
+		gtk_tree_model_get( model, &iter, 5, &clip,	-1 );
+		mvcp_unit_clip_move( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_absolute, clip, mvcp_absolute, clip + 1 );
+	}
 	return TRUE;
 }
 
 static gboolean on_remove( GtkWidget *dummy, gpointer data )
 {
 	page_clips this = data;
-	mvcp_unit_remove_current_clip( this->dv, dv1394app_get_selected_unit( this->app ) );
+	GtkWidget *widget = lookup_widget( this_page_get_widget( this ), "treeview1" );
+	GtkTreeSelection *select = gtk_tree_view_get_selection( GTK_TREE_VIEW( widget ) );
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	int clip;
+
+	if ( gtk_tree_selection_get_selected( select, &model, &iter ) )
+	{
+		gtk_tree_model_get( model, &iter, 5, &clip,	-1 );
+		mvcp_unit_clip_remove( this->dv, dv1394app_get_selected_unit( this->app ), mvcp_absolute, clip );
+	}
 	return TRUE;
 }
 

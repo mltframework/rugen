@@ -86,7 +86,7 @@ create_gdv1394d (void)
   GtkWidget *statusbar;
 
   gdv1394d = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (gdv1394d), _("Rugen"));
+  gtk_window_set_title (GTK_WINDOW (gdv1394d), _("Melted Client"));
   gtk_window_set_default_size (GTK_WINDOW (gdv1394d), 640, 480);
 
   vbox1 = gtk_vbox_new (FALSE, 0);
@@ -1131,7 +1131,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_up, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_up, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_up), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (button_up, _("Move current clip up"));
+  gtk_widget_set_tooltip_text (button_up, _("Move clip up"));
 
   image21 = gtk_image_new_from_stock ("gtk-go-up", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image21);
@@ -1143,7 +1143,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_down, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_down, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_down), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (button_down, _("Move current clip down"));
+  gtk_widget_set_tooltip_text (button_down, _("Move clip down"));
 
   image22 = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image22);
@@ -1155,7 +1155,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_remove, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_remove, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_remove), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (button_remove, _("Remove current clip"));
+  gtk_widget_set_tooltip_text (button_remove, _("Remove clip"));
 
   image23 = gtk_image_new_from_stock ("gtk-delete", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image23);
