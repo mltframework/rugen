@@ -438,8 +438,8 @@ static GtkWidget *this_page_get_widget( page_clips this )
 
 static void this_page_get_toolbar_info( page this, GtkIconSize size, GtkWidget **icon, char **label )
 {
-	*icon = gtk_image_new_from_stock( "gtk-find",  size );
-	*label = "_Clips";
+	*icon = gtk_image_new_from_stock( "gtk-justify-fill",  size );
+	*label = _("_Playlist");
 }
 
 static void this_page_on_connect( page_clips this )

@@ -137,7 +137,7 @@ create_gdv1394d (void)
   toolbar1 = gtk_toolbar_new ();
   gtk_widget_show (toolbar1);
   gtk_box_pack_start (GTK_BOX (hbox27), toolbar1, TRUE, TRUE, 0);
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH);
+  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH_HORIZ);
 
   tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-connect", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
   button_connect = gtk_toolbar_append_element (GTK_TOOLBAR (toolbar1),
@@ -226,8 +226,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_0, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_0, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_0), GTK_RELIEF_NONE);
-
-  image19 = create_pixmap (gdv1394d, "editor_movie_i.xpm");
+  gtk_widget_set_tooltip_text (transport_0, _("Beginning of playlist"));
+  
+  image19 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-begin-16.png") );
   gtk_widget_show (image19);
   gtk_container_add (GTK_CONTAINER (transport_0), image19);
 
@@ -237,8 +238,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_1, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_1, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_1), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_1, _("Start of clip"));
 
-  image18 = create_pixmap (gdv1394d, "editor_scene_i.xpm");
+  image18 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-prev-16.png") );
   gtk_widget_show (image18);
   gtk_container_add (GTK_CONTAINER (transport_1), image18);
 
@@ -248,8 +250,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_2, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_2, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_2), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_2, _("Rewind"));
 
-  image17 = create_pixmap (gdv1394d, "editor_fast_i.xpm");
+  image17 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-rew-16.png") );
   gtk_widget_show (image17);
   gtk_container_add (GTK_CONTAINER (transport_2), image17);
 
@@ -259,8 +262,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_3, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_3, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_3), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_3, _("Previous frame"));
 
-  image12 = create_pixmap (gdv1394d, "editor_step_i.xpm");
+  image12 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-prev-frame-16.png") );
   gtk_widget_show (image12);
   gtk_container_add (GTK_CONTAINER (transport_3), image12);
 
@@ -270,8 +274,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_4, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_4, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_4), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_4, _("Pause"));
 
-  image11 = create_pixmap (gdv1394d, "editor_pause.xpm");
+  image11 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-pause-16.png") );
   gtk_widget_show (image11);
   gtk_container_add (GTK_CONTAINER (transport_4), image11);
 
@@ -281,8 +286,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_5, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_5, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_5), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_5, _("Play"));
 
-  image9 = create_pixmap (gdv1394d, "editor_play.xpm");
+  image9 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-play-16.png") );
   gtk_widget_show (image9);
   gtk_container_add (GTK_CONTAINER (transport_5), image9);
 
@@ -292,6 +298,7 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_6, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_6, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_6), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_6, _("Stop"));
 
   alignment9 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment9);
@@ -301,7 +308,7 @@ create_gdv1394d (void)
   gtk_widget_show (hbox17);
   gtk_container_add (GTK_CONTAINER (alignment9), hbox17);
 
-  image10 = create_pixmap (gdv1394d, "editor_stop.xpm");
+  image10 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-stop-16.png") );
   gtk_widget_show (image10);
   gtk_box_pack_start (GTK_BOX (hbox17), image10, FALSE, FALSE, 0);
 
@@ -316,8 +323,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_7, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_7, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_7), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_7, _("Next frame"));
 
-  image13 = create_pixmap (gdv1394d, "editor_step.xpm");
+  image13 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-next-frame-16.png") );
   gtk_widget_show (image13);
   gtk_container_add (GTK_CONTAINER (transport_7), image13);
 
@@ -327,8 +335,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_8, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_8, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_8), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_8, _("Fast forward"));
 
-  image14 = create_pixmap (gdv1394d, "editor_fast.xpm");
+  image14 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-fwd-16.png") );
   gtk_widget_show (image14);
   gtk_container_add (GTK_CONTAINER (transport_8), image14);
 
@@ -338,8 +347,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_9, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_9, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_9), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_9, _("Next clip"));
 
-  image15 = create_pixmap (gdv1394d, "editor_scene.xpm");
+  image15 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-next-16.png") );
   gtk_widget_show (image15);
   gtk_container_add (GTK_CONTAINER (transport_9), image15);
 
@@ -349,8 +359,9 @@ create_gdv1394d (void)
   gtk_widget_set_size_request (transport_10, 34, 25);
   GTK_WIDGET_UNSET_FLAGS (transport_10, GTK_CAN_FOCUS);
   gtk_button_set_relief (GTK_BUTTON (transport_10), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (transport_10, _("End of playlist"));
 
-  image16 = create_pixmap (gdv1394d, "editor_movie.xpm");
+  image16 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-end-16.png") );
   gtk_widget_show (image16);
   gtk_container_add (GTK_CONTAINER (transport_10), image16);
 
