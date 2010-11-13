@@ -466,10 +466,13 @@ create_window_connection (void)
   gtk_window_set_position (GTK_WINDOW (window_connection), GTK_WIN_POS_MOUSE);
   gtk_window_set_modal (GTK_WINDOW (window_connection), TRUE);
   gtk_window_set_resizable (GTK_WINDOW (window_connection), FALSE);
-
+  gtk_container_set_border_width (GTK_CONTAINER (window_connection), 8);
+		
   table2 = gtk_table_new (3, 2, FALSE);
   gtk_widget_show (table2);
   gtk_container_add (GTK_CONTAINER (window_connection), table2);
+  gtk_table_set_row_spacings (GTK_TABLE (table2), 8);
+  gtk_table_set_col_spacings (GTK_TABLE (table2), 8);
 
   label30 = gtk_label_new (_("Server "));
   gtk_widget_show (label30);
@@ -501,6 +504,29 @@ create_window_connection (void)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (hbuttonbox4), GTK_BUTTONBOX_SPREAD);
 
+  button_cancel = gtk_button_new ();
+  gtk_widget_show (button_cancel);
+  gtk_container_add (GTK_CONTAINER (hbuttonbox4), button_cancel);
+  GTK_WIDGET_SET_FLAGS (button_cancel, GTK_CAN_DEFAULT);
+  gtk_button_set_relief (GTK_BUTTON (button_cancel), GTK_RELIEF_NONE);
+
+  alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment3);
+  gtk_container_add (GTK_CONTAINER (button_cancel), alignment3);
+
+  hbox9 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox9);
+  gtk_container_add (GTK_CONTAINER (alignment3), hbox9);
+
+  image3 = gtk_image_new_from_stock ("gtk-cancel", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image3);
+  gtk_box_pack_start (GTK_BOX (hbox9), image3, FALSE, FALSE, 0);
+
+  label33 = gtk_label_new_with_mnemonic (_("Cancel"));
+  gtk_widget_show (label33);
+  gtk_box_pack_start (GTK_BOX (hbox9), label33, FALSE, FALSE, 0);
+  gtk_label_set_justify (GTK_LABEL (label33), GTK_JUSTIFY_LEFT);
+
   button_connect = gtk_button_new ();
   gtk_widget_show (button_connect);
   gtk_container_add (GTK_CONTAINER (hbuttonbox4), button_connect);
@@ -526,29 +552,6 @@ create_window_connection (void)
   gtk_widget_show (label32);
   gtk_box_pack_start (GTK_BOX (hbox8), label32, FALSE, FALSE, 0);
   gtk_label_set_justify (GTK_LABEL (label32), GTK_JUSTIFY_LEFT);
-
-  button_cancel = gtk_button_new ();
-  gtk_widget_show (button_cancel);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox4), button_cancel);
-  GTK_WIDGET_SET_FLAGS (button_cancel, GTK_CAN_DEFAULT);
-  gtk_button_set_relief (GTK_BUTTON (button_cancel), GTK_RELIEF_NONE);
-
-  alignment3 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment3);
-  gtk_container_add (GTK_CONTAINER (button_cancel), alignment3);
-
-  hbox9 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox9);
-  gtk_container_add (GTK_CONTAINER (alignment3), hbox9);
-
-  image3 = gtk_image_new_from_stock ("gtk-no", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image3);
-  gtk_box_pack_start (GTK_BOX (hbox9), image3, FALSE, FALSE, 0);
-
-  label33 = gtk_label_new_with_mnemonic (_("Cancel"));
-  gtk_widget_show (label33);
-  gtk_box_pack_start (GTK_BOX (hbox9), label33, FALSE, FALSE, 0);
-  gtk_label_set_justify (GTK_LABEL (label33), GTK_JUSTIFY_LEFT);
 
   hbox10 = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox10);
@@ -990,7 +993,7 @@ create_page_clips (void)
   gtk_widget_show (mode_1);
   gtk_container_add (GTK_CONTAINER (menu1), mode_1);
 
-  mode_2 = gtk_menu_item_new_with_mnemonic (_("Queue"));
+  mode_2 = gtk_menu_item_new_with_mnemonic (_("Append"));
   gtk_widget_show (mode_2);
   gtk_container_add (GTK_CONTAINER (menu1), mode_2);
 
@@ -1078,6 +1081,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_clips_refresh, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_clips_refresh, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_clips_refresh), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_clips_refresh, _("Refresh"));
 
   alignment5 = gtk_alignment_new (0, 0.5, 0, 0);
   gtk_widget_show (alignment5);
@@ -1102,6 +1106,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_clips_home, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_clips_home, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_clips_home), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_clips_home, _("Load root folder"));
 
   alignment6 = gtk_alignment_new (0, 0.5, 0, 0);
   gtk_widget_show (alignment6);
@@ -1126,6 +1131,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_up, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_up, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_up), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_up, _("Move current clip up"));
 
   image21 = gtk_image_new_from_stock ("gtk-go-up", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image21);
@@ -1137,6 +1143,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_down, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_down, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_down), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_down, _("Move current clip down"));
 
   image22 = gtk_image_new_from_stock ("gtk-go-down", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image22);
@@ -1148,6 +1155,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_remove, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_remove, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_remove), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_remove, _("Remove current clip"));
 
   image23 = gtk_image_new_from_stock ("gtk-delete", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image23);
@@ -1159,6 +1167,7 @@ create_page_clips (void)
   GTK_WIDGET_UNSET_FLAGS (button_clean, GTK_CAN_FOCUS);
   GTK_WIDGET_SET_FLAGS (button_clean, GTK_CAN_DEFAULT);
   gtk_button_set_relief (GTK_BUTTON (button_clean), GTK_RELIEF_NONE);
+  gtk_widget_set_tooltip_text (button_clean, _("Remove all but current clip"));
 
   image24 = gtk_image_new_from_stock ("gtk-clear", GTK_ICON_SIZE_MENU);
   gtk_widget_show (image24);

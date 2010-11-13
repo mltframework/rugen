@@ -267,7 +267,7 @@ static GtkWidget *this_page_get_widget( page super )
 static void this_page_get_toolbar_info( page super, GtkIconSize size, GtkWidget **icon, char **label )
 {
 	*icon = gtk_image_new_from_stock( "gtk-home",  size );
-	*label = "_Units";
+	*label = _("_Units");
 }
 
 static void this_page_on_connect( page super )

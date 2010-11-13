@@ -119,7 +119,7 @@ static GtkWidget *this_page_get_widget( page_command this )
 static void this_page_get_toolbar_info( page this, GtkIconSize size, GtkWidget **icon, char **label )
 {
 	*icon = gtk_image_new_from_stock( "gtk-execute",  size );
-	*label = "_Shell";
+	*label = _("_Shell");
 }
 
 static void this_on_connect( page_command this )
