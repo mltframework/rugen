@@ -99,6 +99,10 @@ static gboolean on_connect_pressed( GtkWidget *button, gpointer user_data )
 		instance_connect( this, server, port );
 	}
 	gtk_widget_destroy( this->connect );
+	this->guard = 1;
+	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_connect" ) ), TRUE );	
+	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_disconnect" ) ), FALSE );	
+	this->guard = 0;
 
 	return FALSE;
 }
@@ -109,6 +113,7 @@ static gboolean on_connect_pressed( GtkWidget *button, gpointer user_data )
 static gboolean on_cancel_pressed( GtkWidget *button, gpointer user_data )
 {
 	dv1394app this = user_data;
+	if ( this->guard ) return FALSE;
 	gtk_widget_destroy( this->connect );
 	return FALSE;
 }
@@ -121,6 +126,7 @@ void on_item_connect_activate( GtkMenuItem *menuitem, gpointer user_data )
 	dv1394app this = user_data;
 	GtkWidget *widget;
 	
+	if ( this->guard ) return;
 	this->connect = create_window_connection( );
 	
 	/* Connection set up handling */
@@ -138,7 +144,14 @@ void on_item_connect_activate( GtkMenuItem *menuitem, gpointer user_data )
 void on_item_disconnect_activate( GtkMenuItem *menuitem, gpointer user_data )
 {
 	dv1394app this = user_data;
+	
+	if ( this->guard ) return;
 	dv1394app_disconnect( this );
+	
+	this->guard = 1;
+	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_connect" ) ), FALSE );	
+	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_disconnect" ) ), TRUE );	
+	this->guard = 0;
 }
 
 /** Main window - quit menu item selected.
@@ -154,14 +167,20 @@ static gboolean on_page_switch_pressed( GtkWidget *button, gpointer user_data )
 	dv1394app this = user_data;
 	int index = 0;
 	GtkWidget *notebook = lookup_widget( button, "notebook1" );
-	
+
+	if ( this->guard ) return TRUE;
+	this->guard = 1;
+	for ( index = 0; index < this->page_count; index ++ )
+		gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( this->page_buttons[ index ] ), FALSE );		
 	for ( index = 0; index < this->page_count; index ++ )
 	{
+		gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( this->page_buttons[ index ] ), FALSE );		
 		if ( this->page_buttons[ index ] == button )
 			break;
 	}
-	
+	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( this->page_buttons[ index ] ), TRUE );
 	gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), index );
+	this->guard = 0;
 	
 	return TRUE;
 }
@@ -232,7 +251,7 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 
 static void dv1394app_register_page( dv1394app this, page item )
 {
-	GtkWidget *toolbar = lookup_widget( this->window, "toolbar2" );
+	GtkWidget *toolbar = lookup_widget( this->window, "toolbar1" );
 	GtkIconSize size = gtk_toolbar_get_icon_size( GTK_TOOLBAR( toolbar ) );
 	GtkWidget *widget = lookup_widget( this->window, "notebook1" );
 	GtkWidget *bin = gtk_frame_new( NULL );
@@ -246,7 +265,7 @@ static void dv1394app_register_page( dv1394app this, page item )
 	gtk_widget_show( bin );
 	
 	page_get_toolbar_info( item, size, &widget, &label );
-	this->page_buttons[ this->page_count ] = gtk_toolbar_append_element( GTK_TOOLBAR ( toolbar ), GTK_TOOLBAR_CHILD_BUTTON, NULL, label, NULL, NULL, widget, NULL, NULL);
+	this->page_buttons[ this->page_count ] = gtk_toolbar_append_element( GTK_TOOLBAR ( toolbar ), GTK_TOOLBAR_CHILD_TOGGLEBUTTON, NULL, label, NULL, NULL, widget, NULL, NULL);
 	gtk_label_set_use_underline( GTK_LABEL(((GtkToolbarChild*)(g_list_last( GTK_TOOLBAR( toolbar )->children)->data))->label), TRUE);
 	gtk_widget_show( widget );
 	gtk_signal_connect( GTK_OBJECT( this->page_buttons[ this->page_count ] ), "clicked", GTK_SIGNAL_FUNC( on_page_switch_pressed ), this );
@@ -355,23 +374,26 @@ dv1394app dv1394app_init( GtkWidget *window, char *instance )
 		gtk_signal_connect( GTK_OBJECT( this->window ), "destroy", GTK_SIGNAL_FUNC( on_main_window_delete_event ), this );
 
 		/* Menu item signal handling */
- 		widget = lookup_widget( this->window, "item_connect" );
-		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_connect_activate ), this );
+// 		widget = lookup_widget( this->window, "item_connect" );
+//		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_connect_activate ), this );
  		widget = lookup_widget( this->window, "button_connect" );
 		gtk_signal_connect( GTK_OBJECT( widget ), "clicked", GTK_SIGNAL_FUNC( on_item_connect_activate ), this );
- 		widget = lookup_widget( this->window, "item_disconnect" );
-		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_disconnect_activate ), this );
+// 		widget = lookup_widget( this->window, "item_disconnect" );
+//		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_disconnect_activate ), this );
  		widget = lookup_widget( this->window, "button_disconnect" );
 		gtk_signal_connect( GTK_OBJECT( widget ), "clicked", GTK_SIGNAL_FUNC( on_item_disconnect_activate ), this );
- 		widget = lookup_widget( this->window, "item_quit" );
-		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_quit_activate ), this );
- 		widget = lookup_widget( this->window, "button_quit" );
-		gtk_signal_connect( GTK_OBJECT( widget ), "clicked", GTK_SIGNAL_FUNC( on_item_quit_activate ), this );
-
+// 		widget = lookup_widget( this->window, "item_quit" );
+//		gtk_signal_connect( GTK_OBJECT( widget ), "activate", GTK_SIGNAL_FUNC( on_item_quit_activate ), this );
+// 		widget = lookup_widget( this->window, "button_quit" );
+//		gtk_signal_connect( GTK_OBJECT( widget ), "clicked", GTK_SIGNAL_FUNC( on_item_quit_activate ), this );
+		
 		/* Initialise the pages. */
 		dv1394app_register_page( this, page_status_init( this ) );
 		dv1394app_register_page( this, page_clips_init( this ) );
 		dv1394app_register_page( this, page_command_init( this ) );
+		this->guard = 1;
+		gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( this->page_buttons[ 0 ] ), TRUE );
+		this->guard = 0;
 
 		/* Remove the empty page */
 		widget = lookup_widget( this->window, "notebook1" );
@@ -427,7 +449,12 @@ dv1394app dv1394app_init( GtkWidget *window, char *instance )
 			*port ++ = '\0';
 		else
 			port = "5250";
-		instance_connect( this, server, port );
+		this->guard = 1;
+		if ( instance_connect( this, server, port ) )
+			gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_connect" ) ), TRUE );
+		else
+			gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( lookup_widget( this->window, "button_disconnect" ) ), TRUE );
+		this->guard = 0;
 		free( server );
 	}
 

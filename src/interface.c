@@ -31,24 +31,24 @@ create_gdv1394d (void)
 {
   GtkWidget *gdv1394d;
   GtkWidget *vbox1;
-  GtkWidget *handlebox2;
+//  GtkWidget *handlebox2;
   GtkWidget *hbox27;
   GtkWidget *vbox9;
-  GtkWidget *menubar;
-  GtkWidget *menuitem1;
-  GtkWidget *menuitem1_menu;
-  GtkWidget *item_connect;
-  GtkWidget *item_disconnect;
-  GtkWidget *separatormenuitem1;
-  GtkWidget *item_quit;
+//  GtkWidget *menubar;
+//  GtkWidget *menuitem1;
+//  GtkWidget *menuitem1_menu;
+//  GtkWidget *item_connect;
+//  GtkWidget *item_disconnect;
+//  GtkWidget *separatormenuitem1;
+//  GtkWidget *item_quit;
   GtkWidget *toolbar1;
   GtkWidget *tmp_toolbar_icon;
   GtkWidget *button_connect;
   GtkWidget *button_disconnect;
-  GtkWidget *vseparator1;
-  GtkWidget *button_quit;
+//  GtkWidget *vseparator1;
+//  GtkWidget *button_quit;
   GtkWidget *hbox;
-  GtkWidget *toolbar2;
+//  GtkWidget *toolbar2;
   GtkWidget *vbox6;
   GtkWidget *notebook1;
   GtkWidget *empty_notebook_page;
@@ -93,96 +93,97 @@ create_gdv1394d (void)
   gtk_widget_show (vbox1);
   gtk_container_add (GTK_CONTAINER (gdv1394d), vbox1);
 
-  handlebox2 = gtk_handle_box_new ();
-  gtk_widget_show (handlebox2);
-  gtk_box_pack_start (GTK_BOX (vbox1), handlebox2, FALSE, FALSE, 0);
+//  handlebox2 = gtk_handle_box_new ();
+//  gtk_widget_show (handlebox2);
+//  gtk_box_pack_start (GTK_BOX (vbox1), handlebox2, FALSE, FALSE, 0);
 
   hbox27 = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox27);
-  gtk_container_add (GTK_CONTAINER (handlebox2), hbox27);
+//  gtk_container_add (GTK_CONTAINER (handlebox2), hbox27);
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox27, FALSE, FALSE, 0);
 
   vbox9 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox9);
   gtk_box_pack_start (GTK_BOX (hbox27), vbox9, TRUE, TRUE, 0);
 
-  menubar = gtk_menu_bar_new ();
-  gtk_widget_show (menubar);
-  gtk_box_pack_start (GTK_BOX (vbox9), menubar, TRUE, TRUE, 0);
+//  menubar = gtk_menu_bar_new ();
+//  gtk_widget_show (menubar);
+//  gtk_box_pack_start (GTK_BOX (vbox9), menubar, TRUE, TRUE, 0);
 
-  menuitem1 = gtk_menu_item_new_with_mnemonic (_("_File"));
-  gtk_widget_show (menuitem1);
-  gtk_container_add (GTK_CONTAINER (menubar), menuitem1);
+//  menuitem1 = gtk_menu_item_new_with_mnemonic (_("_File"));
+//  gtk_widget_show (menuitem1);
+//  gtk_container_add (GTK_CONTAINER (menubar), menuitem1);
 
-  menuitem1_menu = gtk_menu_new ();
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem1), menuitem1_menu);
+//  menuitem1_menu = gtk_menu_new ();
+//  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem1), menuitem1_menu);
 
-  item_connect = gtk_menu_item_new_with_mnemonic (_("_Connect"));
-  gtk_widget_show (item_connect);
-  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_connect);
+//  item_connect = gtk_menu_item_new_with_mnemonic (_("_Connect"));
+//  gtk_widget_show (item_connect);
+//  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_connect);
 
-  item_disconnect = gtk_menu_item_new_with_mnemonic (_("_Disconnect"));
-  gtk_widget_show (item_disconnect);
-  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_disconnect);
+//  item_disconnect = gtk_menu_item_new_with_mnemonic (_("_Disconnect"));
+//  gtk_widget_show (item_disconnect);
+//  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_disconnect);
 
-  separatormenuitem1 = gtk_menu_item_new ();
-  gtk_widget_show (separatormenuitem1);
-  gtk_container_add (GTK_CONTAINER (menuitem1_menu), separatormenuitem1);
-  gtk_widget_set_sensitive (separatormenuitem1, FALSE);
+//  separatormenuitem1 = gtk_menu_item_new ();
+//  gtk_widget_show (separatormenuitem1);
+//  gtk_container_add (GTK_CONTAINER (menuitem1_menu), separatormenuitem1);
+//  gtk_widget_set_sensitive (separatormenuitem1, FALSE);
 
-  item_quit = gtk_menu_item_new_with_mnemonic (_("_Quit"));
-  gtk_widget_show (item_quit);
-  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_quit);
+//  item_quit = gtk_menu_item_new_with_mnemonic (_("_Quit"));
+//  gtk_widget_show (item_quit);
+//  gtk_container_add (GTK_CONTAINER (menuitem1_menu), item_quit);
 
   toolbar1 = gtk_toolbar_new ();
   gtk_widget_show (toolbar1);
-  gtk_box_pack_start (GTK_BOX (hbox27), toolbar1, FALSE, FALSE, 0);
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_ICONS);
+  gtk_box_pack_start (GTK_BOX (hbox27), toolbar1, TRUE, TRUE, 0);
+  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar1), GTK_TOOLBAR_BOTH);
 
-  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-yes", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
+  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-connect", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
   button_connect = gtk_toolbar_append_element (GTK_TOOLBAR (toolbar1),
-                                GTK_TOOLBAR_CHILD_BUTTON,
+                                GTK_TOOLBAR_CHILD_TOGGLEBUTTON,
                                 NULL,
-                                "",
+                                "Connect",
                                 _("Connect to a server"), NULL,
                                 tmp_toolbar_icon, NULL, NULL);
   gtk_label_set_use_underline (GTK_LABEL (((GtkToolbarChild*) (g_list_last (GTK_TOOLBAR (toolbar1)->children)->data))->label), TRUE);
   gtk_widget_show (button_connect);
 
-  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-stop", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
+  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-disconnect", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
   button_disconnect = gtk_toolbar_append_element (GTK_TOOLBAR (toolbar1),
-                                GTK_TOOLBAR_CHILD_BUTTON,
+                                GTK_TOOLBAR_CHILD_TOGGLEBUTTON,
                                 NULL,
-                                "",
+                                "Disconnect",
                                 _("Disconnect from server"), NULL,
                                 tmp_toolbar_icon, NULL, NULL);
   gtk_label_set_use_underline (GTK_LABEL (((GtkToolbarChild*) (g_list_last (GTK_TOOLBAR (toolbar1)->children)->data))->label), TRUE);
   gtk_widget_show (button_disconnect);
 
-  vseparator1 = gtk_vseparator_new ();
-  gtk_widget_show (vseparator1);
   gtk_toolbar_append_space (GTK_TOOLBAR (toolbar1));
 
-  gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar1), vseparator1, NULL, NULL);
+//  vseparator1 = gtk_vseparator_new ();
+//  gtk_widget_show (vseparator1);
+//  gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar1), vseparator1, NULL, NULL);
 
-  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-quit", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
-  button_quit = gtk_toolbar_append_element (GTK_TOOLBAR (toolbar1),
-                                GTK_TOOLBAR_CHILD_BUTTON,
-                                NULL,
-                                "",
-                                _("Exit"), NULL,
-                                tmp_toolbar_icon, NULL, NULL);
-  gtk_label_set_use_underline (GTK_LABEL (((GtkToolbarChild*) (g_list_last (GTK_TOOLBAR (toolbar1)->children)->data))->label), TRUE);
-  gtk_widget_show (button_quit);
+//  tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-quit", gtk_toolbar_get_icon_size (GTK_TOOLBAR (toolbar1)));
+//  button_quit = gtk_toolbar_append_element (GTK_TOOLBAR (toolbar1),
+//                                GTK_TOOLBAR_CHILD_BUTTON,
+//                                NULL,
+//                                "",
+//                                _("Exit"), NULL,
+//                                tmp_toolbar_icon, NULL, NULL);
+//  gtk_label_set_use_underline (GTK_LABEL (((GtkToolbarChild*) (g_list_last (GTK_TOOLBAR (toolbar1)->children)->data))->label), TRUE);
+//  gtk_widget_show (button_quit);
 
   hbox = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox);
   gtk_box_pack_start (GTK_BOX (vbox1), hbox, TRUE, TRUE, 0);
 
-  toolbar2 = gtk_toolbar_new ();
-  gtk_widget_show (toolbar2);
-  gtk_box_pack_start (GTK_BOX (hbox), toolbar2, FALSE, TRUE, 0);
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar2), GTK_TOOLBAR_BOTH);
-  gtk_toolbar_set_orientation (GTK_TOOLBAR (toolbar2), GTK_ORIENTATION_VERTICAL);
+//  toolbar2 = gtk_toolbar_new ();
+//  gtk_widget_show (toolbar2);
+//  gtk_box_pack_start (GTK_BOX (hbox), toolbar2, FALSE, TRUE, 0);
+//  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar2), GTK_TOOLBAR_BOTH);
+//  gtk_toolbar_set_orientation (GTK_TOOLBAR (toolbar2), GTK_ORIENTATION_VERTICAL);
 
   vbox6 = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (vbox6);
@@ -195,6 +196,7 @@ create_gdv1394d (void)
   gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook1), FALSE);
   gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook1), GTK_POS_RIGHT);
   gtk_notebook_popup_enable (GTK_NOTEBOOK (notebook1));
+  gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook1), FALSE);
 
   empty_notebook_page = gtk_vbox_new (FALSE, 0);
   gtk_widget_show (empty_notebook_page);
@@ -368,23 +370,23 @@ create_gdv1394d (void)
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (gdv1394d, gdv1394d, "gdv1394d");
   GLADE_HOOKUP_OBJECT (gdv1394d, vbox1, "vbox1");
-  GLADE_HOOKUP_OBJECT (gdv1394d, handlebox2, "handlebox2");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, handlebox2, "handlebox2");
   GLADE_HOOKUP_OBJECT (gdv1394d, hbox27, "hbox27");
   GLADE_HOOKUP_OBJECT (gdv1394d, vbox9, "vbox9");
-  GLADE_HOOKUP_OBJECT (gdv1394d, menubar, "menubar");
-  GLADE_HOOKUP_OBJECT (gdv1394d, menuitem1, "menuitem1");
-  GLADE_HOOKUP_OBJECT (gdv1394d, menuitem1_menu, "menuitem1_menu");
-  GLADE_HOOKUP_OBJECT (gdv1394d, item_connect, "item_connect");
-  GLADE_HOOKUP_OBJECT (gdv1394d, item_disconnect, "item_disconnect");
-  GLADE_HOOKUP_OBJECT (gdv1394d, separatormenuitem1, "separatormenuitem1");
-  GLADE_HOOKUP_OBJECT (gdv1394d, item_quit, "item_quit");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, menubar, "menubar");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, menuitem1, "menuitem1");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, menuitem1_menu, "menuitem1_menu");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, item_connect, "item_connect");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, item_disconnect, "item_disconnect");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, separatormenuitem1, "separatormenuitem1");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, item_quit, "item_quit");
   GLADE_HOOKUP_OBJECT (gdv1394d, toolbar1, "toolbar1");
   GLADE_HOOKUP_OBJECT (gdv1394d, button_connect, "button_connect");
   GLADE_HOOKUP_OBJECT (gdv1394d, button_disconnect, "button_disconnect");
-  GLADE_HOOKUP_OBJECT (gdv1394d, vseparator1, "vseparator1");
-  GLADE_HOOKUP_OBJECT (gdv1394d, button_quit, "button_quit");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, vseparator1, "vseparator1");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, button_quit, "button_quit");
   GLADE_HOOKUP_OBJECT (gdv1394d, hbox, "hbox");
-  GLADE_HOOKUP_OBJECT (gdv1394d, toolbar2, "toolbar2");
+//  GLADE_HOOKUP_OBJECT (gdv1394d, toolbar2, "toolbar2");
   GLADE_HOOKUP_OBJECT (gdv1394d, vbox6, "vbox6");
   GLADE_HOOKUP_OBJECT (gdv1394d, notebook1, "notebook1");
   GLADE_HOOKUP_OBJECT (gdv1394d, label40, "label40");

@@ -45,6 +45,7 @@ typedef struct
 	
 	int trim_in;
 	int trim_out;
+	int guard;
 }
 *dv1394app, dv1394app_t;
 
