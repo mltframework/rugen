@@ -211,10 +211,16 @@ static void *status_thread( void *arg )
 	{
 		if ( mvcp_notifier_wait( notifier, &status ) != -1 )
 		{
+			char buf[32];
+
 			if ( status.status == unit_disconnected )
 				break;
 			if ( show_status( this, &status ) )
 				show_units( this, TRUE );
+			if ( mvcp_unit_get( this->app->command, this->app->selected_unit, "eof", buf, sizeof(buf) ) != -1)
+				this->app->eof = buf[0];
+			else
+				this->app->eof = 0;
 		}
 	}
 

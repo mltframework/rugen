@@ -26,6 +26,106 @@
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
 
+static void create_buttons_transport(GtkWidget *top, GtkWidget *parent_box)
+{
+    int i;
+    GtkWidget *hbox;
+    gchar name[32];
+    const static struct
+    {
+        gchar* tooltip;
+        gchar* filename;
+    } buttons[] =
+    {
+        {
+            "Beginning of playlist",
+            "stock_media-begin-16.png"
+        },
+        {
+            "Start of clip",
+            "stock_media-prev-16.png"
+        },
+        {
+            "Rewind",
+            "stock_media-rew-16.png"
+        },
+        {
+            "Previous frame",
+            "stock_media-prev-frame-16.png"
+        },
+        {
+            "Pause",
+            "stock_media-pause-16.png"
+        },
+        {
+            "Play",
+            "stock_media-play-16.png"
+        },
+        {
+            "Stop",
+            "stock_media-stop-16.png"
+        },
+        {
+            "Next frame",
+            "stock_media-next-frame-16.png"
+        },
+        {
+            "Fast forward",
+            "stock_media-fwd-16.png"
+        },
+        {
+            "Next clip",
+            "stock_media-next-16.png"
+        },
+        {
+            "End of playlist",
+            "stock_media-end-16.png"
+        },
+        {
+            "Loop On",
+            "eof-loop-16.png"
+        },
+        {
+            "Loop Off",
+            "eof-pause-16.png"
+        },
+        {
+            NULL,
+            NULL
+        }
+    };
+
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_widget_show (hbox);
+    gtk_box_pack_start (GTK_BOX (parent_box), hbox, FALSE, TRUE, 0);
+
+
+    for(i = 0; buttons[i].filename; i++)
+    {
+        GtkWidget *transport, *image;
+
+        transport = gtk_button_new ();
+        gtk_widget_show (transport);
+        gtk_box_pack_start (GTK_BOX (hbox), transport, TRUE, FALSE, 0);
+        gtk_widget_set_size_request (transport, 34, 25);
+        GTK_WIDGET_UNSET_FLAGS (transport, GTK_CAN_FOCUS);
+        gtk_button_set_relief (GTK_BUTTON (transport), GTK_RELIEF_NONE);
+        gtk_widget_set_tooltip_text (transport, buttons[i].tooltip);
+
+        image = gtk_image_new_from_pixbuf(create_pixbuf(buttons[i].filename));
+        gtk_widget_show (image);
+        gtk_container_add (GTK_CONTAINER (transport), image);
+
+        snprintf(name, sizeof(name), "transport_%d", i);
+        GLADE_HOOKUP_OBJECT (top, transport, name);
+
+        snprintf(name, sizeof(name), "transport_image_%d", i);
+        GLADE_HOOKUP_OBJECT (top, image, name);
+    };
+
+    GLADE_HOOKUP_OBJECT (top, hbox, "buttons_transport_hbox");
+};
+
 GtkWidget*
 create_gdv1394d (void)
 {
@@ -55,32 +155,6 @@ create_gdv1394d (void)
   GtkWidget *label40;
   GtkWidget *hbox20;
   GtkWidget *label46;
-  GtkWidget *hbox16;
-  GtkWidget *transport_0;
-  GtkWidget *image19;
-  GtkWidget *transport_1;
-  GtkWidget *image18;
-  GtkWidget *transport_2;
-  GtkWidget *image17;
-  GtkWidget *transport_3;
-  GtkWidget *image12;
-  GtkWidget *transport_4;
-  GtkWidget *image11;
-  GtkWidget *transport_5;
-  GtkWidget *image9;
-  GtkWidget *transport_6;
-  GtkWidget *alignment9;
-  GtkWidget *hbox17;
-  GtkWidget *image10;
-  GtkWidget *label41;
-  GtkWidget *transport_7;
-  GtkWidget *image13;
-  GtkWidget *transport_8;
-  GtkWidget *image14;
-  GtkWidget *transport_9;
-  GtkWidget *image15;
-  GtkWidget *transport_10;
-  GtkWidget *image16;
   GtkWidget *label47;
   GtkWidget *vbox_trim;
   GtkWidget *statusbar;
@@ -216,154 +290,7 @@ create_gdv1394d (void)
   gtk_box_pack_start (GTK_BOX (hbox20), label46, TRUE, TRUE, 0);
   gtk_label_set_justify (GTK_LABEL (label46), GTK_JUSTIFY_LEFT);
 
-  hbox16 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox16);
-  gtk_box_pack_start (GTK_BOX (hbox20), hbox16, FALSE, TRUE, 0);
-
-  transport_0 = gtk_button_new ();
-  gtk_widget_show (transport_0);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_0, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_0, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_0, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_0), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_0, _("Beginning of playlist"));
-  
-  image19 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-begin-16.png") );
-  gtk_widget_show (image19);
-  gtk_container_add (GTK_CONTAINER (transport_0), image19);
-
-  transport_1 = gtk_button_new ();
-  gtk_widget_show (transport_1);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_1, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_1, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_1, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_1), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_1, _("Start of clip"));
-
-  image18 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-prev-16.png") );
-  gtk_widget_show (image18);
-  gtk_container_add (GTK_CONTAINER (transport_1), image18);
-
-  transport_2 = gtk_button_new ();
-  gtk_widget_show (transport_2);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_2, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_2, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_2, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_2), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_2, _("Rewind"));
-
-  image17 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-rew-16.png") );
-  gtk_widget_show (image17);
-  gtk_container_add (GTK_CONTAINER (transport_2), image17);
-
-  transport_3 = gtk_button_new ();
-  gtk_widget_show (transport_3);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_3, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_3, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_3, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_3), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_3, _("Previous frame"));
-
-  image12 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-prev-frame-16.png") );
-  gtk_widget_show (image12);
-  gtk_container_add (GTK_CONTAINER (transport_3), image12);
-
-  transport_4 = gtk_button_new ();
-  gtk_widget_show (transport_4);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_4, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_4, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_4, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_4), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_4, _("Pause"));
-
-  image11 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-pause-16.png") );
-  gtk_widget_show (image11);
-  gtk_container_add (GTK_CONTAINER (transport_4), image11);
-
-  transport_5 = gtk_button_new ();
-  gtk_widget_show (transport_5);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_5, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_5, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_5, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_5), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_5, _("Play"));
-
-  image9 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-play-16.png") );
-  gtk_widget_show (image9);
-  gtk_container_add (GTK_CONTAINER (transport_5), image9);
-
-  transport_6 = gtk_button_new ();
-  gtk_widget_show (transport_6);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_6, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_6, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_6, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_6), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_6, _("Stop"));
-
-  alignment9 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment9);
-  gtk_container_add (GTK_CONTAINER (transport_6), alignment9);
-
-  hbox17 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox17);
-  gtk_container_add (GTK_CONTAINER (alignment9), hbox17);
-
-  image10 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-stop-16.png") );
-  gtk_widget_show (image10);
-  gtk_box_pack_start (GTK_BOX (hbox17), image10, FALSE, FALSE, 0);
-
-  label41 = gtk_label_new_with_mnemonic ("");
-  gtk_widget_show (label41);
-  gtk_box_pack_start (GTK_BOX (hbox17), label41, FALSE, FALSE, 0);
-  gtk_label_set_justify (GTK_LABEL (label41), GTK_JUSTIFY_LEFT);
-
-  transport_7 = gtk_button_new ();
-  gtk_widget_show (transport_7);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_7, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_7, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_7, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_7), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_7, _("Next frame"));
-
-  image13 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-next-frame-16.png") );
-  gtk_widget_show (image13);
-  gtk_container_add (GTK_CONTAINER (transport_7), image13);
-
-  transport_8 = gtk_button_new ();
-  gtk_widget_show (transport_8);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_8, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_8, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_8, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_8), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_8, _("Fast forward"));
-
-  image14 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-fwd-16.png") );
-  gtk_widget_show (image14);
-  gtk_container_add (GTK_CONTAINER (transport_8), image14);
-
-  transport_9 = gtk_button_new ();
-  gtk_widget_show (transport_9);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_9, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_9, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_9, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_9), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_9, _("Next clip"));
-
-  image15 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-next-16.png") );
-  gtk_widget_show (image15);
-  gtk_container_add (GTK_CONTAINER (transport_9), image15);
-
-  transport_10 = gtk_button_new ();
-  gtk_widget_show (transport_10);
-  gtk_box_pack_start (GTK_BOX (hbox16), transport_10, TRUE, FALSE, 0);
-  gtk_widget_set_size_request (transport_10, 34, 25);
-  GTK_WIDGET_UNSET_FLAGS (transport_10, GTK_CAN_FOCUS);
-  gtk_button_set_relief (GTK_BUTTON (transport_10), GTK_RELIEF_NONE);
-  gtk_widget_set_tooltip_text (transport_10, _("End of playlist"));
-
-  image16 = gtk_image_new_from_pixbuf( create_pixbuf ("stock_media-end-16.png") );
-  gtk_widget_show (image16);
-  gtk_container_add (GTK_CONTAINER (transport_10), image16);
+  create_buttons_transport(gdv1394d, hbox20);
 
   label47 = gtk_label_new ("");
   gtk_widget_show (label47);
@@ -403,32 +330,6 @@ create_gdv1394d (void)
   GLADE_HOOKUP_OBJECT (gdv1394d, label40, "label40");
   GLADE_HOOKUP_OBJECT (gdv1394d, hbox20, "hbox20");
   GLADE_HOOKUP_OBJECT (gdv1394d, label46, "label46");
-  GLADE_HOOKUP_OBJECT (gdv1394d, hbox16, "hbox16");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_0, "transport_0");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image19, "image19");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_1, "transport_1");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image18, "image18");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_2, "transport_2");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image17, "image17");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_3, "transport_3");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image12, "image12");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_4, "transport_4");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image11, "image11");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_5, "transport_5");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image9, "image9");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_6, "transport_6");
-  GLADE_HOOKUP_OBJECT (gdv1394d, alignment9, "alignment9");
-  GLADE_HOOKUP_OBJECT (gdv1394d, hbox17, "hbox17");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image10, "image10");
-  GLADE_HOOKUP_OBJECT (gdv1394d, label41, "label41");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_7, "transport_7");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image13, "image13");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_8, "transport_8");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image14, "image14");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_9, "transport_9");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image15, "image15");
-  GLADE_HOOKUP_OBJECT (gdv1394d, transport_10, "transport_10");
-  GLADE_HOOKUP_OBJECT (gdv1394d, image16, "image16");
   GLADE_HOOKUP_OBJECT (gdv1394d, label47, "label47");
   GLADE_HOOKUP_OBJECT (gdv1394d, vbox_trim, "vbox_trim");
   GLADE_HOOKUP_OBJECT (gdv1394d, statusbar, "statusbar");

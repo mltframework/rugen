@@ -192,7 +192,7 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 	mvcp dv = dv1394app_get_command( this );
 	int unit = dv1394app_get_selected_unit( this );
 	
-	for ( index = 0; index < 11; index ++ )
+	for ( index = 0; index < TRANSPORT_BUTTONS_COUNT; index ++ )
 		if ( this->buttons[ index ] == button )
 			break;
 	
@@ -242,6 +242,14 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 			mvcp_unit_clip_goto( dv, unit, mvcp_absolute, 9999, -1 );
 			break;
 		
+		case 11:
+			mvcp_unit_set( dv, unit, "eof", "loop");
+			break;
+
+		case 12:
+			mvcp_unit_set( dv, unit, "eof", "pause");
+			break;
+
 		default:
 			break;
 	}
@@ -305,6 +313,9 @@ void dv1394app_show_status( dv1394app this, mvcp_status status )
 		trim_adj[TRIM_ADJ_POS]->value = status->position;
 		gtk_signal_emit_by_name( GTK_OBJECT(trim_adj[TRIM_ADJ_POS]), "value_changed" );
 	}
+
+	gtk_widget_set_sensitive( lookup_widget( dv1394app_get_widget( this ), "transport_11" ), this->eof == 'p' );
+	gtk_widget_set_sensitive( lookup_widget( dv1394app_get_widget( this ), "transport_12" ), this->eof == 'l' );
 }
 
 static gboolean trim_pressed( GtkWidget *button, GdkEventButton *event, gpointer user_data )
@@ -403,7 +414,7 @@ dv1394app dv1394app_init( GtkWidget *window, char *instance )
 		int index;
 		GtkAccelGroup *accel_group = gtk_accel_group_new( );
 		
-		for ( index = 0; index < 11; index ++ )
+		for ( index = 0; index < TRANSPORT_BUTTONS_COUNT; index ++ )
 		{
 			char name[ 256 ];
 			sprintf( name, "transport_%d", index );

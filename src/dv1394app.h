@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include <mvcp/mvcp.h>
 
+#define TRANSPORT_BUTTONS_COUNT 13
+
 typedef struct page_t *page;
 	
 typedef struct
@@ -38,7 +40,7 @@ typedef struct
 	int selected_unit;
 	
 	// TODO: This comes out later
-	GtkWidget *buttons[ 12 ];
+	GtkWidget *buttons[ TRANSPORT_BUTTONS_COUNT ];
 	
 	int trim_in_use;
 	int seek_flag;
@@ -46,6 +48,7 @@ typedef struct
 	int trim_in;
 	int trim_out;
 	int guard;
+	int eof;
 }
 *dv1394app, dv1394app_t;
 
