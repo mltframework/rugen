@@ -244,10 +244,12 @@ static gboolean on_transport_pressed( GtkWidget *button, gpointer data )
 		
 		case 11:
 			mvcp_unit_set( dv, unit, "eof", "loop");
+			this->eof = 0;
 			break;
 
 		case 12:
 			mvcp_unit_set( dv, unit, "eof", "pause");
+			this->eof = 0;
 			break;
 
 		default:
