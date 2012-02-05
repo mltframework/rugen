@@ -11,7 +11,7 @@ AM_PROG_CC_STDC
 AM_PROG_CC_C_O
 AC_HEADER_STDC
 
-pkg_modules="gtk+-2.0 >= 1.3.13"
+pkg_modules="gtk+-2.0 >= 1.3.13 gthread-2.0 mlt-melted mlt-mvcp"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
