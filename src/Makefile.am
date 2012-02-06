@@ -20,6 +20,6 @@ rugen_SOURCES = \
 	page_units.c \
 	gtkenhancedscale.c gtkenhancedscale.h
 
-rugen_CFLAGS = `pkg-config --cflags gthread-2.0 mlt-melted mlt-mvcp`
+rugen_CFLAGS = @PACKAGE_CFLAGS@
 rugen_LDADD = @PACKAGE_LIBS@
-rugen_LDFLAGS = `pkg-config --libs gthread-2.0 mlt-melted mlt-mvcp`
+
